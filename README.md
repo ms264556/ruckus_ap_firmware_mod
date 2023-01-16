@@ -16,7 +16,7 @@ cd src
 make install
 cd ..
 
-# Extract firmware from Image (which you need to download yourself from https://support.ruckuswireless.com/software)
+# Extract firmware from a .bl7 Solo Image (download the appropriate Solo image for your AP model from https://support.ruckuswireless.com/software)
 ./extract.sh ~/zf7962_9.8.3.0.14.bl7
 # Modify Solo/Standalone firmware to enable wireless uplink
 ./mod_example.sh
