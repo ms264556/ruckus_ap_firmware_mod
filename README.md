@@ -3,8 +3,13 @@ Scripts &amp; tools to modify Ruckus AP software images
 
 ## Sample - modify Solo AP Firmware to enable Wireless Uplink
 
+The provided mod_example.sh enables wireless bridge/repeater/extender functionality.
+
+If you are here because you specifically require this functionality then [there's an easier way to enable it here](https://ms264556.github.io/Hackery/pages/StandaloneWirelessBridgeRepeater.html).
+
 > "Works on my PC" (Ubuntu 22.04 WSL2)  
-> The sample script will only work on old (9.6 - 104.0) images.
+
+> The sample script will only work on old (9.6 - 104.0) images.  
 
 ```bash
 # Prerequisites
@@ -35,6 +40,3 @@ Now you can:-
 * Press `Update Settings` again. 
 
 Your AP will now fall off the wired network, and associate intsead with the chosen SSID.
-
-> You can, if you wish, enter your own SSID and Passphrase into the `mod_example.sh` script, so that it immediately associates after a factory reset.  
-If you do this then also change the line which sets wlan-encrypt-state, so it reads: `echo 1 >wlan-encrypt-state`
