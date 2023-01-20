@@ -5,7 +5,7 @@ Scripts &amp; tools to modify Ruckus AP software images
 
 The provided mod_example.sh enables wireless bridge/repeater/extender functionality.
 
-If you are here because you specifically require this functionality then [there's an easier way to enable it here](https://ms264556.github.io/Hackery/pages/StandaloneWirelessBridgeRepeater.html).
+If you are here because you specifically require this functionality then [there's an easier way](https://ms264556.github.io/Hackery/pages/StandaloneWirelessBridgeRepeater.html).
 
 > "Works on my PC" (Ubuntu 22.04 WSL2)  
 
