@@ -29,7 +29,7 @@ So if your AP is running FSI firmware (e.g. SmartZone 3.6+, ZoneDirector 10.1+, 
 > Alternatively, the existence of a file `/tmp/ignore_sign` will bypass the firmware signing checks. 
 
 The included `mksquashfs` and `unsquashfs` tools are the specific version Ruckus uses to create their lzma compressed rootfs images.  
-If your AP image is very old (e.g. pre-9.6) then it needs an older squashfs release. I didn't bother getting this to build, sorry.  
+If your AP image is very old (e.g. pre-9.6) then it needs an older squashfs release. I didn't bother getting this to build, sorry, but the source is [here](https://github.com/ms264556/Xclaim_Task/blob/33093a71ca7a536ed7132d5f1be80d9d18d01398/buildroot/dl/squashfs2.1-r2.tar.gz).  
 If your AP is a newer model (e.g. Rx50) then it needs a newer squashfs release. I assume your distro's standard packaged mksquashfs will work, but I haven't tried.
 
 ## Sample - modify Solo AP Firmware to enable Wireless Uplink
