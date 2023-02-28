@@ -25,7 +25,7 @@ An AP running FSI firmware will only install ISI and FSI firmwares.
 An AP running ISI firmware will allow any type of firmware to be installed.
 
 The `shred-package` tool will split any type of firmware, but the `build-package` tool can only create UI images because we don't know the Ruckus signing key.  
-So if your AP is running FSI firmware (e.g. SmartZone 3.6+, ZoneDirector 10.1+, Unleashed 200.7+ or Solo 110+) then you must first install an ISI image (e.g. Solo 104 or 106) before you can install a firmware modded with these tool.
+So if your AP is running FSI firmware (e.g. SmartZone 3.6+, ZoneDirector 10.1+, Unleashed 200.7+ or Solo 110+) then you must first install an ISI image (e.g. Solo 104 or 106) before you can install a firmware modded with these tools.
 > Alternatively, the existence of a file `/tmp/ignore_sign` on the AP will bypass the firmware signing checks. 
 
 The included `mksquashfs` and `unsquashfs` tools are the specific version Ruckus uses to create their lzma compressed rootfs images.  
