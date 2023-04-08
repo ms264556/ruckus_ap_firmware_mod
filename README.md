@@ -40,11 +40,11 @@ If you are here because you specifically require this functionality then [there'
 
 > This "works on my PC" (Ubuntu 22.04 WSL2)  
 
-> The sample script will only work on Solo/Standalone 9.6 - 106 firmware images.  
+> The sample script will only work on Solo/Standalone 9.6 - 9.8 firmware images.  
 
 ```bash
 # Prerequisites
-sudo apt install build-essentials
+sudo apt install build-essential
 sudo apt install libz-dev
 
 # Build C stuff
