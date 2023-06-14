@@ -44,8 +44,7 @@ If you are here because you specifically require this functionality then [there'
 
 ```bash
 # Prerequisites
-sudo apt install build-essential
-sudo apt install libz-dev
+sudo apt install build-essential libz-dev
 
 # Build C stuff
 cd src
