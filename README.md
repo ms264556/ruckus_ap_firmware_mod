@@ -37,7 +37,7 @@ The included `mksquashfs` and `unsquashfs` tools are the specific version Ruckus
 
 The provided mod_example.sh enables wireless bridge/repeater/extender functionality.
 
-If you are here because you specifically require this functionality then [there's an easier way](https://ms264556.github.io/Hackery/pages/StandaloneWirelessBridgeRepeater.html).
+If you are here because you specifically require this functionality then [there's an easier way](https://ms264556.net/pages/StandaloneWirelessBridgeRepeater).
 
 > This "works on my PC" (Ubuntu 22.04 WSL2)  
 
