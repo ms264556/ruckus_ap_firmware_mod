@@ -1,0 +1,7 @@
+bin
+src/**/*.o
+src/build-package
+src/dump-header
+src/shred-package
+src/**/mksquashfs
+src/**/unsquashfs

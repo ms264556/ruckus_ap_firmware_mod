@@ -25,7 +25,7 @@ An AP running FSI firmware will only install ISI and FSI firmwares.
 An AP running ISI firmware will allow any type of firmware to be installed.
 
 The `shred-package` tool will split any type of firmware, but the `build-package` tool can only create UI images because we don't know the Ruckus signing key.  
-So if your AP is running FSI firmware (e.g. SmartZone 3.6+, ZoneDirector 10.1+, Unleashed 200.7+, Blue or Solo 110+) then you must first install an ISI image (e.g. Solo 104 or 106) before you can install a firmware modded with these tools.
+So if your AP is running FSI firmware (e.g. SmartZone 3.6+, ZoneDirector 10.1+, Unleashed 200.7+ or Solo 110+) then you must first install an ISI image (e.g. Solo 104 or 106) before you can install a firmware modded with these tools.
 > Alternatively, the existence of a file `/tmp/ignore_sign` on the AP will bypass the firmware signing checks. 
 
 The included `mksquashfs` and `unsquashfs` tools are the specific version Ruckus uses to create their lzma compressed rootfs images.  
@@ -33,15 +33,9 @@ The included `mksquashfs` and `unsquashfs` tools are the specific version Ruckus
 
 > If your AP is a newer model (e.g. Rx50) then it needs a newer squashfs release. The `extract.sh` script will use your distro's standard packaged `unsquashfs` if necessary but I haven't updated `rebuild.sh` to check for and and use your distro's standard packaged `mksquashfs`.  
 
-## Sample - modify Solo AP Firmware to enable Wireless Uplink
+## Building
 
-The provided mod_example.sh enables wireless bridge/repeater/extender functionality.
-
-If you are here because you specifically require this functionality then [there's an easier way](https://ms264556.net/pages/StandaloneWirelessBridgeRepeater).
-
-> This "works on my PC" (Ubuntu 22.04 WSL2)  
-
-> The sample script will only work on Solo/Standalone 9.6 - 9.8 firmware images.  
+> This "works on my PC" (Ubuntu on WSL2)  
 
 ```bash
 # Prerequisites
@@ -52,6 +46,17 @@ cd src
 make install
 cd ..
 
+```
+
+## Sample - modify Solo AP Firmware to enable Wireless Uplink
+
+The provided mod_example.sh enables wireless bridge/repeater/extender functionality.
+
+If you are here because you specifically require this functionality then [there's an easier way](https://ms264556.net/pages/StandaloneWirelessBridgeRepeater).
+
+> The sample script will only work on Solo/Standalone 9.6 - 9.8 firmware images.  
+
+```bash
 # Extract firmware from a .bl7 Solo Image
 # (download the appropriate Solo image for your AP model
 # from https://support.ruckuswireless.com/software)
