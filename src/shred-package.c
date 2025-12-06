@@ -4,6 +4,8 @@
 #include <stdbool.h>
 #include "ruckus-fw.h"
 
+#define FIT_MAGIC 0xd00dfeed
+
 void showUsage(char *cmd)
 {
     fprintf(stderr, "Usage: %s [--input] package.bl7 [--header ruckus_header.img] [--kernel ruckus_kernel.img] [--rootfs ruckus_rootfs.img] [--trailer ruckus_trailer.img]\n", cmd);
@@ -11,6 +13,7 @@ void showUsage(char *cmd)
 
 // Copy bytes_to_copy bytes from input_fd to output_fd.
 // Set bytes_to_copy to -1 to read to the end of the input.
+// Pass NULL as output_fd to skip bytes in input_fd without writing.
 //
 size_t copy_file_bytes(FILE *input_fd, FILE *output_fd, size_t bytes_to_copy)
 {
@@ -21,7 +24,7 @@ size_t copy_file_bytes(FILE *input_fd, FILE *output_fd, size_t bytes_to_copy)
     size_t bytes_written = 0;
     while ((bytes_to_copy != 0) && (bytes_read = fread(buffer, 1, (bytes_to_copy >= 0 && bytes_to_read > bytes_to_copy) ? bytes_to_copy : bytes_to_read, input_fd)) > 0)
     {
-        bytes_written += fwrite(buffer, 1, bytes_read, output_fd);
+        bytes_written += (output_fd) ? fwrite(buffer, 1, bytes_read, output_fd) : bytes_read;
         bytes_to_copy -= bytes_read;
     }
     return bytes_written;
@@ -63,7 +66,6 @@ int shred_package_file(char *filePath, char *headerPath, char *kernelPath, char 
     {
         printf("Error: Could not open header output file %s.\n", headerPath);
         fclose(fd);
-        fclose(header_fd);
         return false;
     }
     fwrite(&hdr, 1, sizeof(struct bin_hdr), header_fd);
@@ -79,11 +81,28 @@ int shred_package_file(char *filePath, char *headerPath, char *kernelPath, char 
     {
         printf("Error: Could not open kernel output file %s.\n", kernelPath);
         fclose(fd);
-        fclose(kernel_fd);
         return false;
     }
-    copy_file_bytes(fd, kernel_fd, (int)(hdr.next_image - hdr.hdr_len));
+
+    size_t kernel_padded_size = (size_t)(hdr.next_image - hdr.hdr_len);
+    size_t kernel_size = kernel_padded_size;
+
+    // Read first 8 kernel bytes to check for FIT magic and size
+    uint32_t buf[2];
+    size_t initial_read = fread(buf, 1, sizeof(buf), fd);
+    if (initial_read > 0) fwrite(buf, 1, initial_read, kernel_fd);
+
+    if (initial_read == sizeof(buf) && ntohl(buf[0]) == FIT_MAGIC)
+    {
+        uint32_t fit_size = ntohl(buf[1]);
+        if (fit_size > 0 && fit_size <= kernel_padded_size) kernel_size = fit_size;
+    }
+
+    if (kernel_size > initial_read) copy_file_bytes(fd, kernel_fd, kernel_size - initial_read);
     fclose(kernel_fd);
+
+    // skip kernel padding
+    copy_file_bytes(fd, NULL, kernel_padded_size - kernel_size);
 
     // save rootfs
     //
@@ -92,7 +111,6 @@ int shred_package_file(char *filePath, char *headerPath, char *kernelPath, char 
     {
         printf("Error: Could not open rootfs output file %s.\n", rootfsPath);
         fclose(fd);
-        fclose(rootfs_fd);
         return false;
     }
     int rootfs_bytes;
@@ -116,11 +134,10 @@ int shred_package_file(char *filePath, char *headerPath, char *kernelPath, char 
         {
             printf("Error: Could not open footer output file %s.\n", trailerPath);
             fclose(fd);
-            fclose(trailer_fd);
             return false;
         }
         copy_file_bytes(fd, trailer_fd, -1);
-        fclose(kernel_fd);
+        fclose(trailer_fd);
     }
     else
     {
@@ -173,6 +190,7 @@ int main(int argc, char **argv)
             break;
         case 'r':
             rootfsFile = optarg;
+            break;
         case 't':
             trailerFile = optarg;
             break;

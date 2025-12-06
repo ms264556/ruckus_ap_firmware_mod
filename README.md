@@ -12,6 +12,33 @@ Because of this, the .bl7 contains padding after the kernel section, such that t
 The header is 160 bytes.
 You can use the `dump-header` tool to display a .bl7 file's header.
 
+|Byte Offset|Field|Type|Description|
+|----|----|-----|----|
+|0x00|magic|uint8_t[4]|Header magic: "`RCKS`"|
+|0x04|next_image|uint32_t|Offset to next image (i.e. the rootfs)|
+|0x08|invalid|uint8_t|Only autoboot from this image if invalid is `0`|
+|0x09|hdr_len|uint8_t|Length of this header|
+|0x0A|compression|uint8_t[2]|Compression scheme, default l7, [`l7`\|`zl`\|`xx`]|
+|0x0C|entry_point|uint32_t|Execution entry point|
+|0x10|binl7_len|uint32_t|Length of (compressed) binary image|
+|0x14|timestamp|uint32_t|Timestamp|
+|0x18|signature|uint8_t[16]|MD5 checksum|
+|0x28|hdr_version|uint16_t|Header version|
+|0x2A|hdr_cksum|uint16_t|Header checksum|
+|0x2C|version|uint8_t[16]|FW version string|
+|0x3C|product|uint8_t|Product class, e.g. AP vs Adapter|
+|0x3D|architecture|uint8_t|Architecture, e.g. mips, le/be, etc.|
+|0x3E|chipset|uint8_t|Chipset, e.g. AR531X|
+|0x3F|board_type|uint8_t|V54 board type|
+|0x40|customer|uint8_t[32]|Customer ID, NULL ==> any customer|
+|0x60|product_v2|uint8_t[12]|FWv2 product string|
+|0x6C|version_v2|uint8_t[19]|FWv2 version string|
+|0x7F|board_class|uint8_t|FWv2 board class|
+|0x80|load_address|uint32_t|Load address|
+|0x84|image_type|uint32_t|0=Unsigned Image (UI) / 1=Intermediate Signed Image (ISI) / 2=Fully Signed Image (FSI)|
+|0x88|tail_offset|uint32_t|Offset to the signatures within the binl7. Only ISI stores signatures within the binl7, so this is 0 for UI & FSI images.|
+|0x8C|_pad_end|uint8_t[20]|Pad out to 160 bytes|
+
 The simplest firmwares are unsigned (called UI or USI).  
 * The UI header contains an MD5 hash for the kernel + rootfs, and a checksum for the header itself.  
 
