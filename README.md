@@ -1,6 +1,9 @@
 # Ruckus AP Firmware Modding Tools
 Scripts &amp; tools to modify Ruckus AP software images
 
+> [!TIP]
+> If you just want to quickly extract the kernel or rootfs from a Ruckus .bl7 file, you can use the handy [online tool here](https://ms264556.net/ruckus/DecryptRuckusBackups).
+
 ## Ruckus AP Firmware Notes
 
 Ruckus AP firmwares are delivered as .bl7 files, which are flashed directly onto the target MTD.
@@ -72,7 +75,6 @@ sudo apt install build-essential libz-dev
 cd src
 make install
 cd ..
-
 ```
 
 ## Sample - modify Solo AP Firmware to enable Wireless Uplink
